@@ -1,0 +1,15 @@
+{
+  "name": "deriverse-analytics-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.cjs",
+    "dev": "node server.cjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1"
+  }
+}
