@@ -28,7 +28,7 @@ interface SolanaProvider {
   isPhantom?: boolean
   isSolflare?: boolean
   isBackpack?: boolean
-  connect: () => Promise<{ publicKey: { toString: () => string } }>
+  connect: () => Promise<{ publicKey: unknown }>
   disconnect?: () => Promise<void>
 }
 
@@ -36,7 +36,7 @@ interface WalletContextValue {
   connected: boolean
   connecting: boolean
   publicKey: string | null
-  connect: () => Promise<void>
+  connect: () => void
   connectWallet: (id: WalletId) => Promise<void>
   disconnect: () => Promise<void>
   error: string | null
@@ -96,7 +96,10 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     try {
       setConnecting(true)
       const resp = await provider.connect()
-      const pubkey = resp?.publicKey
+      const pubkey = resp?.publicKey as
+        | { toBase58?: () => string; toString?: () => string }
+        | null
+        | undefined
       const pk =
         typeof pubkey?.toBase58 === 'function'
           ? pubkey.toBase58()
