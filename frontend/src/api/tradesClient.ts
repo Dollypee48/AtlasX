@@ -1,8 +1,11 @@
 import type { Trade } from '../types'
 import { mockTrades } from '../data/mockTrades'
 
-/** Production API base URL. In dev, Vite proxies /api to the backend. */
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
+/** Backend API base URL. In dev, Vite proxies /api to localhost. In production, use deployed backend. */
+const DEFAULT_PRODUCTION_API = 'https://atlas-x-rg57.vercel.app'
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ??
+  (import.meta.env.PROD ? DEFAULT_PRODUCTION_API : '')
 
 export async function fetchTradesForWallet(wallet: string): Promise<Trade[]> {
   const url = API_BASE

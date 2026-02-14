@@ -2,6 +2,15 @@
 
 A comprehensive trading analytics solution for [Deriverse](https://deriverse.xyz) — the next-gen, fully on-chain, decentralized Solana trading ecosystem. This dashboard provides professional trading journal and portfolio analysis for active traders across spot, perpetual, and options markets.
 
+### Live deployment
+
+| App | URL |
+|-----|-----|
+| **Frontend** | [https://atlas-x-roan.vercel.app/](https://atlas-x-roan.vercel.app/) |
+| **Backend API** | [https://atlas-x-rg57.vercel.app](https://atlas-x-rg57.vercel.app) |
+
+The frontend is wired to use the backend API above in production.
+
 ---
 
 ## Features
@@ -157,10 +166,8 @@ The app runs at **http://localhost:5173**. Vite proxies `/api` to the backend.
 
 - **Build command**: `npm run build`
 - **Build output**: `dist`
-- **Environment**:
-  - `VITE_API_BASE_URL` — your backend URL (e.g. `https://your-api.onrender.com`)
-
-Without `VITE_API_BASE_URL`, the built app will call `/api` on its own domain and get 404 unless you run a combined deployment.
+- **Environment** (optional):
+  - `VITE_API_BASE_URL` — backend URL. If unset, production build uses `https://atlas-x-rg57.vercel.app` by default (see `frontend/src/api/tradesClient.ts`).
 
 ---
 
@@ -193,7 +200,7 @@ MIT
 
 ## Author
 
-[Your Name](https://twitter.com/yourhandle)
+[Akinola Dolapo](https://x.com/AkinolaDolapo6)
 
 ---
 
