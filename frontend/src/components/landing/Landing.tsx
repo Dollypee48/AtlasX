@@ -1,13 +1,27 @@
 interface LandingProps {
   connected: boolean
+  publicKey: string | null
   onConnectWallet: () => void
   onGoToDashboard: () => void
+  onDisconnect: () => void
 }
 
-export const Landing = ({ connected, onConnectWallet, onGoToDashboard }: LandingProps) => {
+function shortenAddress(pk: string, chars = 4): string {
+  if (pk === 'demo-wallet') return 'Demo'
+  if (pk.length <= chars * 2 + 2) return pk
+  return `${pk.slice(0, chars)}…${pk.slice(-chars)}`
+}
+
+export const Landing = ({
+  connected,
+  publicKey,
+  onConnectWallet,
+  onGoToDashboard,
+  onDisconnect,
+}: LandingProps) => {
   return (
     <div className="min-h-screen bg-solana-main text-text-primary">
-      {/* Header */}
+      {/* Header: Connect wallet when disconnected; wallet + Log out when connected (no Go to dashboard here) */}
       <header className="border-b border-atlasx-borderSoft bg-atlasx-bg/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2.5">
@@ -21,13 +35,33 @@ export const Landing = ({ connected, onConnectWallet, onGoToDashboard }: Landing
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={connected ? onGoToDashboard : onConnectWallet}
-            className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-1.5 text-xs font-medium text-text-inverse shadow-glow-green hover:bg-brand.light"
-          >
-            {connected ? 'Go to dashboard' : 'Connect wallet'}
-          </button>
+          <div className="flex items-center gap-2">
+            {connected && publicKey && (
+              <span
+                className="rounded-full border border-atlasx-borderSoft bg-atlasx-bg/70 px-3 py-1 text-[11px] text-text-secondary"
+                title={publicKey}
+              >
+                {shortenAddress(publicKey)}
+              </span>
+            )}
+            {connected ? (
+              <button
+                type="button"
+                onClick={onDisconnect}
+                className="inline-flex items-center gap-2 rounded-full border border-atlasx-borderSoft bg-atlasx-bg/70 px-4 py-1.5 text-xs font-medium text-text-primary hover:bg-atlasx-bg hover:border-atlasx-border"
+              >
+                Log out
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={onConnectWallet}
+                className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-1.5 text-xs font-medium text-text-inverse shadow-glow-green hover:bg-brand.light"
+              >
+                Connect wallet
+              </button>
+            )}
+          </div>
         </div>
       </header>
 

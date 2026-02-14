@@ -78,29 +78,44 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
 
   const connectWallet = useCallback(async (id: WalletId) => {
     setError(null)
-    setShowWalletModal(false)
 
     if (id === 'demo') {
       setPublicKey('demo-wallet')
       setConnected(true)
+      setShowWalletModal(false)
       return
     }
 
     const provider = getProvider(id)
     if (!provider) {
-      setError(`${walletOptions.find(w => w.id === id)?.name ?? id} is not installed.`)
+      const name = walletOptions.find((w) => w.id === id)?.name ?? id
+      setError(`${name} is not installed. Install the extension and refresh the page.`)
       return
     }
 
     try {
       setConnecting(true)
       const resp = await provider.connect()
-      const pk = resp.publicKey.toString()
-      setPublicKey(pk)
-      setConnected(true)
+      const pubkey = resp?.publicKey
+      const pk =
+        typeof pubkey?.toBase58 === 'function'
+          ? pubkey.toBase58()
+          : typeof pubkey?.toString === 'function'
+            ? pubkey.toString()
+            : pubkey != null
+              ? String(pubkey)
+              : null
+      if (pk) {
+        setPublicKey(pk)
+        setConnected(true)
+        setShowWalletModal(false)
+      } else {
+        setError('Connected but could not read wallet address.')
+      }
     } catch (e) {
-      console.error(e)
-      setError('Failed to connect. Please try again.')
+      console.error('Wallet connect error:', e)
+      const message = e instanceof Error ? e.message : 'Failed to connect. Please try again.'
+      setError(message)
     } finally {
       setConnecting(false)
     }

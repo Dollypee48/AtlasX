@@ -16,7 +16,7 @@ import { WalletProvider, useWalletContext } from './solanaWallet'
 import { useState } from 'react'
 
 const AppInner = () => {
-  const { connected, connect } = useWalletContext()
+  const { connected, connect, disconnect, publicKey } = useWalletContext()
   const [activePage, setActivePage] = useState('overview')
   const [showLanding, setShowLanding] = useState(true)
 
@@ -26,8 +26,10 @@ const AppInner = () => {
         <WalletSelectModal />
         <Landing
           connected={connected}
+          publicKey={publicKey}
           onConnectWallet={connect}
           onGoToDashboard={() => setShowLanding(false)}
+          onDisconnect={disconnect}
         />
       </>
     )
@@ -37,7 +39,13 @@ const AppInner = () => {
     <TradeProvider>
       <Shell
         sidebar={<Sidebar active={activePage} onChange={setActivePage} />}
-        header={<Header onLogoClick={() => setShowLanding(true)} />}
+        header={
+          <Header
+            onLogoClick={() => setShowLanding(true)}
+            onLogout={disconnect}
+            publicKey={publicKey}
+          />
+        }
       >
         <DashboardContent activePage={activePage} />
       </Shell>
