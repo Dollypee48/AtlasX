@@ -202,9 +202,12 @@ MIT
 
 [Akinola Dolapo](https://x.com/AkinolaDolapo6)
 
+## Submission
+
+- **GitHub**: [github.com/Dollypee48/AtlasX](https://github.com/Dollypee48/AtlasX)
+- **Live app**: [atlas-x-roan.vercel.app](https://atlas-x-roan.vercel.app/)
+- **Author / Twitter**: [Akinola Dolapo](https://x.com/AkinolaDolapo6)
+
 ---
 
-## Links
 
-- **Deriverse**: [deriverse.xyz](https://deriverse.xyz)
-- **Documentation**: See Deriverse docs for API and protocol details
