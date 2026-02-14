@@ -11,6 +11,7 @@ import { TradeTable } from './components/journal/TradeTable'
 import { PortfolioOverview } from './components/portfolio/PortfolioOverview'
 import { BehavioralInsightsPanel } from './components/insights/BehavioralInsightsPanel'
 import { Landing } from './components/landing/Landing'
+import { WalletSelectModal } from './components/wallet/WalletSelectModal'
 import { WalletProvider, useWalletContext } from './solanaWallet'
 import { useState } from 'react'
 
@@ -21,14 +22,14 @@ const AppInner = () => {
 
   if (!connected || showLanding) {
     return (
-      <Landing
-        onPrimaryAction={() => {
-          if (!connected) {
-            connect()
-          }
-          setShowLanding(false)
-        }}
-      />
+      <>
+        <WalletSelectModal />
+        <Landing
+          connected={connected}
+          onConnectWallet={connect}
+          onGoToDashboard={() => setShowLanding(false)}
+        />
+      </>
     )
   }
 

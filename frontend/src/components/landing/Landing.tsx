@@ -1,8 +1,10 @@
 interface LandingProps {
-  onPrimaryAction: () => void
+  connected: boolean
+  onConnectWallet: () => void
+  onGoToDashboard: () => void
 }
 
-export const Landing = ({ onPrimaryAction }: LandingProps) => {
+export const Landing = ({ connected, onConnectWallet, onGoToDashboard }: LandingProps) => {
   return (
     <div className="min-h-screen bg-solana-main text-text-primary">
       {/* Header */}
@@ -21,10 +23,10 @@ export const Landing = ({ onPrimaryAction }: LandingProps) => {
           </div>
           <button
             type="button"
-            onClick={onPrimaryAction}
+            onClick={connected ? onGoToDashboard : onConnectWallet}
             className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-1.5 text-xs font-medium text-text-inverse shadow-glow-green hover:bg-brand.light"
           >
-            Dashboard
+            {connected ? 'Go to dashboard' : 'Connect wallet'}
           </button>
         </div>
       </header>
@@ -51,10 +53,10 @@ export const Landing = ({ onPrimaryAction }: LandingProps) => {
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                onClick={onPrimaryAction}
+                onClick={connected ? onGoToDashboard : onConnectWallet}
                 className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-sm font-medium text-text-inverse shadow-glow-green hover:bg-brand.light"
               >
-                Go to dashboard
+                {connected ? 'Go to dashboard' : 'Connect wallet'}
               </button>
               <p className="text-[11px] text-text-muted">
                 No email, no signup. Designed for active Solana traders.
